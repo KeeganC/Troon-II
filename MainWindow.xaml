@@ -1,23 +1,13 @@
-<Window x:Class="u2_spaceship_Couper.MainWindow"
+<Window x:Class="u5_Troon_Couper.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:u2_spaceship_Couper"
+        xmlns:local="clr-namespace:u5_Troon_Couper"
         mc:Ignorable="d"
-        Title="MainWindow" Height="622.5" Width="600"
-        KeyDown="Window_KeyDown"
-        >
-    <Canvas x:Name="canvas" Width="600" Height="642">
+        Title="MainWindow" Height="600" Width="600" MaxHeight="600" MaxWidth="600" MinHeight="600" MinWidth="600">
+    <Canvas x:Name="canvas">
         
-        <!-- button that will start the game-->
-        <Button 
-            x:Name="btnStart" 
-            Content="start" Click="btnStart_Click" Width="590" Height="42"/>
-       
-      <!-- creates a black background-->
-        <Rectangle x:Name="rectBackground" Height="548" Width="590" Canvas.Top="42" Fill="Black">
-
-        </Rectangle>
     </Canvas>
 </Window>
+
