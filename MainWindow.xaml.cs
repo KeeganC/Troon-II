@@ -1,9 +1,8 @@
-/*
- * Couper Ebbs-Picken
- * March 26th 2018
- * Make spaceships that will fly around and crash
+/* 
+ * Couper Ebbs-picken
+ * 5/9/2018
+ * Make Troon
  */
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,57 +18,95 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace u2_spaceship_Couper
+namespace u5_Troon_Couper
 {
+    enum GameState { SplashScreen, GameOn, GameOver }
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        
-        //delcaring point variables
-        Point location1;
-        Point location2;
-
-        // delcaring spaceship variables
-        Spaceship spaceship1;
-        Spaceship spaceship2;
+        GameState gameState;
+        Player player1;
+        Player player2;
+        Point location1 = new Point(50, 300);
+        Point location2 = new Point(550, 300);
+        Brush brush1 = Brushes.Blue;
+        Brush brush2 = Brushes.Red;
+        int orientation1 = 3;
+        int orientation2 = 1;
+        System.Windows.Threading.DispatcherTimer gameTimer = new System.Windows.Threading.DispatcherTimer();
 
         public MainWindow()
         {
             InitializeComponent();
-             
+            gameTimer.Tick += gameTimer_Tick;
+            gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);//fps
+            gameTimer.Start();
+
         }
 
-        // pressing the button will build two spaceships on either  side of the canvas
-        private void btnStart_Click(object sender, RoutedEventArgs e)
+        private void setupGame()
         {
-            location1 = new Point(50, 342);
-            location2 = new Point(550, 349);
-            spaceship1 = new Spaceship(location1, canvas, Brushes.Red);
-            spaceship2 = new Spaceship(location2, canvas, Brushes.Blue);
+            gameState = GameState.GameOn;
+            player1 = new Player(location1, canvas, brush1);
+            player2 = new Player(location2, canvas, brush2);
         }
 
-        // the following stuff will happen when a key is pressed
+        private void gameTimer_Tick(object sender, EventArgs e)
+        {
+
+            if (gameState == GameState.SplashScreen)
+            {
+                this.Title = "Splash Screen";
+                if (Keyboard.IsKeyDown(Key.Enter))
+                {
+                    setupGame();
+                }
+            }
+
+            else if (gameState == GameState.GameOn)
+            {
+                this.Title = "Game on";
+                location1 = player1.move(orientation1, player1,location1);
+                location2 = player2.move(orientation2, player2, location2);
+
+                Canvas.SetLeft(player1.rect, location1.X);
+                Canvas.SetTop(player1.rect, location1.Y);
+                Canvas.SetLeft(player2.rect, location2.X);
+                Canvas.SetTop(player2.rect, location2.Y);
+            }
+
+            else if (gameState == GameState.GameOver)
+            {
+                this.Title = "Game Over";
+            }
+        }
+
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            // when these keys are pressed, spaceship 1 will turn and move
-            int orientation1 = spaceship1.turn(e.Key);
             if (e.Key == Key.Left
                 || e.Key == Key.Up
                 || e.Key == Key.Down
                 || e.Key == Key.Right)
             {
-                location1 = spaceship1.fly(orientation1, spaceship1, location1);
+                orientation1 = player1.turn(e.Key);
             }
-            // when these keys are pressed spaceship 2 wll turn and move
+
             if (e.Key == Key.A
-                || e.Key == Key.W
-                || e.Key == Key.S
-                || e.Key == Key.D)
+               || e.Key == Key.W
+               || e.Key == Key.S
+               || e.Key == Key.D)
             {
-                location2 = spaceship2.fly(orientation1, spaceship2, location2);
+                orientation2 = player2.turn(e.Key);
             }
+
+
+        }
+    }
+}
+
 
             // the spaceship location will change
             Canvas.SetLeft(spaceship1.rect, location1.X);
