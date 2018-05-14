@@ -15,11 +15,15 @@ namespace u5_Troon_Couper
 {
     class Player
     {
+        /// following code programmed by Couper
+        //variables
         public Point location;
         int speed = 4;
         Rectangle player;
         Canvas canvas;
+        public Rectangle path = new Rectangle();
 
+        // constructor
         public Player(Point location, Canvas c, Brush b)
         {
             canvas = c;
@@ -32,9 +36,10 @@ namespace u5_Troon_Couper
             Canvas.SetTop(player, location.Y);
         }
 
+        // rectangle that will be displayed as the character on screen
         public Rectangle rect { get { return player; } }
 
-        // chanages which way the player is facing
+        // chanages which way the player is facing, also stops player from going back on themselves
         public int turn (Key k, int orientation)
         {
             if (k == Key.Left
@@ -91,7 +96,7 @@ namespace u5_Troon_Couper
                 location.Y += speed;
             }
 
-            // what happens if player is at edge of screen
+            // what happens if player is at edge of screen (moves to other side)
             if (location.X < 0)
             {
                 location.X = 600;
@@ -110,7 +115,10 @@ namespace u5_Troon_Couper
             }
             return location;
         }
+        /// this is the end of the code Couper programmed
 
+        // checks to see if players have hit a path or another character.
+        /// programmed by Keegan and Ian
         public bool checkCollision(Point location1, Point location2)
         {
             return true;
