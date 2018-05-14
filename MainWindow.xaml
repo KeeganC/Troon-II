@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:u5_Troon_Couper"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="600" MaxHeight="600" MaxWidth="600" MinHeight="600" MinWidth="600">
+        Title="MainWindow" Height="600" Width="600" MaxHeight="600" MaxWidth="600" MinHeight="600" MinWidth="600"
+        KeyDown="Window_KeyDown">
     <Canvas x:Name="canvas">
         
     </Canvas>
 </Window>
-
