@@ -27,20 +27,24 @@ namespace u5_Troon_Couper
     /// </summary>
     public partial class MainWindow : Window
     {
+        // global variables
         GameState gameState;
         Player player1;
         Player player2;
-        Point location1 = new Point(50, 300);
-        Point location2 = new Point(550, 300);
         Brush brush1 = Brushes.Blue;
         Brush brush2 = Brushes.Red;
-        int orientation1 = 3;
-        int orientation2 = 1;
+        int orientation1 = 1;
+        int orientation2 = 3;
+        Rectangle path1;
+        Rectangle path2;
+
         System.Windows.Threading.DispatcherTimer gameTimer = new System.Windows.Threading.DispatcherTimer();
 
         public MainWindow()
         {
             InitializeComponent();
+            
+            // starts the game timer thingy
             gameTimer.Tick += gameTimer_Tick;
             gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);//fps
             gameTimer.Start();
@@ -50,8 +54,33 @@ namespace u5_Troon_Couper
         private void setupGame()
         {
             gameState = GameState.GameOn;
-            player1 = new Player(location1, canvas, brush1);
-            player2 = new Player(location2, canvas, brush2);
+            player1 = new Player(new Point(550, 300), canvas, brush1);
+            player2 = new Player(new Point(50, 300), canvas, brush2);
+            player1.location = new Point(550, 300);
+            player2.location = new Point(50, 300);
+        }
+
+        // when a key is pressed
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            // turns player 1
+            if (e.Key == Key.Left
+                || e.Key == Key.Up
+                || e.Key == Key.Down
+                || e.Key == Key.Right)
+            {
+                orientation1 = player1.turn(e.Key, orientation1);
+            }
+
+            // turns player 2
+            if (e.Key == Key.A
+               || e.Key == Key.W
+               || e.Key == Key.S
+               || e.Key == Key.D)
+            {
+                orientation2 = player2.turn(e.Key, orientation2);
+            }
+            //MessageBox.Show("Key was pressed. Shoud've turned someone");
         }
 
         private void gameTimer_Tick(object sender, EventArgs e)
@@ -69,13 +98,29 @@ namespace u5_Troon_Couper
             else if (gameState == GameState.GameOn)
             {
                 this.Title = "Game on";
-                location1 = player1.move(orientation1, player1,location1);
-                location2 = player2.move(orientation2, player2, location2);
+                player1.location = player1.move(orientation1, player1, player1.location);
+                player2.location = player2.move(orientation2, player2, player2.location);
+                path1 = new Rectangle();
+                path1.Width = 5;
+                path1.Height = 5;
+                path1.Fill = brush1;
+                path2 = new Rectangle();
+                path2.Width = 5;
+                path2.Height = 5;
+                path2.Fill = brush2;
 
-                Canvas.SetLeft(player1.rect, location1.X);
-                Canvas.SetTop(player1.rect, location1.Y);
-                Canvas.SetLeft(player2.rect, location2.X);
-                Canvas.SetTop(player2.rect, location2.Y);
+                canvas.Children.Add(path1);
+                canvas.Children.Add(path2);
+                Canvas.SetLeft(path1, player1.location.X);
+                Canvas.SetTop(path1, player1.location.Y);
+                Canvas.SetLeft(path2, player2.location.X);
+                Canvas.SetTop(path2, player2.location.Y);
+
+                // moves the player rectangle
+                Canvas.SetLeft(player1.rect, player1.location.X);
+                Canvas.SetTop(player1.rect, player1.location.Y);
+                Canvas.SetLeft(player2.rect, player2.location.X);
+                Canvas.SetTop(player2.rect, player2.location.Y);
             }
 
             else if (gameState == GameState.GameOver)
@@ -84,38 +129,6 @@ namespace u5_Troon_Couper
             }
         }
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Left
-                || e.Key == Key.Up
-                || e.Key == Key.Down
-                || e.Key == Key.Right)
-            {
-                orientation1 = player1.turn(e.Key);
-            }
-
-            if (e.Key == Key.A
-               || e.Key == Key.W
-               || e.Key == Key.S
-               || e.Key == Key.D)
-            {
-                orientation2 = player2.turn(e.Key);
-            }
-
-
-        }
-    }
-}
-
-
-            // the spaceship location will change
-            Canvas.SetLeft(spaceship1.rect, location1.X);
-            Canvas.SetTop(spaceship1.rect, location1.Y);
-            Canvas.SetLeft(spaceship2.rect, location2.X);
-            Canvas.SetTop(spaceship2.rect, location2.Y);
-
-            // check if the spaceships have crashed
-            spaceship1.checkCollision(location1, location2);
-        }
+        
     }
 }
