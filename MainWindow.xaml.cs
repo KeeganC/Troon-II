@@ -20,6 +20,7 @@ using System.Windows.Shapes;
 
 namespace u5_Troon_Couper
 {
+    /// the following code was done by Couper
     enum GameState { SplashScreen, GameOn, GameOver }
 
     /// <summary>
@@ -35,8 +36,9 @@ namespace u5_Troon_Couper
         Brush brush2 = Brushes.Red;
         int orientation1 = 1;
         int orientation2 = 3;
-        Rectangle path1;
-        Rectangle path2;
+        List <Rectangle> path1 = new List<Rectangle>();
+        List <Rectangle> path2 = new List<Rectangle>();
+
 
         System.Windows.Threading.DispatcherTimer gameTimer = new System.Windows.Threading.DispatcherTimer();
 
@@ -53,7 +55,10 @@ namespace u5_Troon_Couper
 
         private void setupGame()
         {
+            // changes gamestate
             gameState = GameState.GameOn;
+
+            // constructs the players and initializes their locations
             player1 = new Player(new Point(550, 300), canvas, brush1);
             player2 = new Player(new Point(50, 300), canvas, brush2);
             player1.location = new Point(550, 300);
@@ -83,38 +88,40 @@ namespace u5_Troon_Couper
             //MessageBox.Show("Key was pressed. Shoud've turned someone");
         }
 
+        // what happens every tick
         private void gameTimer_Tick(object sender, EventArgs e)
         {
 
-            if (gameState == GameState.SplashScreen)
-            {
-                this.Title = "Splash Screen";
-                if (Keyboard.IsKeyDown(Key.Enter))
-                {
-                    setupGame();
-                }
-            }
-
-            else if (gameState == GameState.GameOn)
+            if (gameState == GameState.GameOn)
             {
                 this.Title = "Game on";
+
+                // creates a path behind the players
+                player1.path = new Rectangle();
+                player1.path.Width = 5;
+                player1.path.Height = 5;
+                player1.path.Fill = brush1;
+                player2.path = new Rectangle();
+                player2.path.Width = 5;
+                player2.path.Height = 5;
+                player2.path.Fill = brush2;
+
+                // adding rectangles to the list for when we check for collisions
+                path1.Add(player1.path);
+                path2.Add(player2.path);
+
+                // draws the path rectangles on the screen
+                canvas.Children.Add(player1.path);
+                canvas.Children.Add(player2.path);
+                Canvas.SetLeft(player1.path, player1.location.X);
+                Canvas.SetTop(player1.path, player1.location.Y);
+                Canvas.SetLeft(player2.path, player2.location.X);
+                Canvas.SetTop(player2.path, player2.location.Y);
+
+                // the players move every tick, you can change the speed of the players in the player class if you want
                 player1.location = player1.move(orientation1, player1, player1.location);
                 player2.location = player2.move(orientation2, player2, player2.location);
-                path1 = new Rectangle();
-                path1.Width = 5;
-                path1.Height = 5;
-                path1.Fill = brush1;
-                path2 = new Rectangle();
-                path2.Width = 5;
-                path2.Height = 5;
-                path2.Fill = brush2;
 
-                canvas.Children.Add(path1);
-                canvas.Children.Add(path2);
-                Canvas.SetLeft(path1, player1.location.X);
-                Canvas.SetTop(path1, player1.location.Y);
-                Canvas.SetLeft(path2, player2.location.X);
-                Canvas.SetTop(path2, player2.location.Y);
 
                 // moves the player rectangle
                 Canvas.SetLeft(player1.rect, player1.location.X);
@@ -126,9 +133,22 @@ namespace u5_Troon_Couper
             else if (gameState == GameState.GameOver)
             {
                 this.Title = "Game Over";
+                
             }
+            /// this is the end of the code that Couper programmed
+
+
+            else if (gameState == GameState.SplashScreen)
+            {
+                this.Title = "Splash Screen";
+                if (Keyboard.IsKeyDown(Key.Enter))
+                {
+                    setupGame();
+                }
+            }
+
         }
 
-        
+
     }
 }
