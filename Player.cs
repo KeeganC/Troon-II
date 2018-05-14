@@ -15,8 +15,8 @@ namespace u5_Troon_Couper
 {
     class Player
     {
-        int orientation;
-        int speed = 2;
+        public Point location;
+        int speed = 4;
         Rectangle player;
         Canvas canvas;
 
@@ -25,8 +25,8 @@ namespace u5_Troon_Couper
             canvas = c;
             player = new Rectangle();
             player.Fill = b;
-            player.Height = 15;
-            player.Width = 15;
+            player.Height = 5;
+            player.Width = 5;
             int playerInt = canvas.Children.Add(player);
             Canvas.SetLeft(player, location.X);
             Canvas.SetTop(player, location.Y);
@@ -35,30 +35,35 @@ namespace u5_Troon_Couper
         public Rectangle rect { get { return player; } }
 
         // chanages which way the player is facing
-        public int turn (Key k)
+        public int turn (Key k, int orientation)
         {
-            orientation = 0;
-
             if (k == Key.Left
-                ||k == Key.A)
+                ||k == Key.A
+                && orientation != 3)
             {
                 orientation = 1;
             }
 
-            if (k == Key.Up
-                || k == Key.W)
+            if ((k == Key.Up
+                && orientation != 4)
+                || (k == Key.W
+                && orientation != 4))
             {
                 orientation = 2;
             }
 
-            if (k == Key.Right
-                || k == Key.D)
+            if ((k == Key.Right
+                && orientation != 1)
+                || (k == Key.D
+                && orientation != 1))
             {
                 orientation = 3;
             }
 
-            if (k == Key.Down
-                || k == Key.S)
+            if ((k == Key.Down
+                && orientation != 2)
+                || (k == Key.S
+                && orientation != 2))
             {
                 orientation = 4;
             }
@@ -106,9 +111,9 @@ namespace u5_Troon_Couper
             return location;
         }
 
-        public void checkCollision(Point location1, Point location2)
+        public bool checkCollision(Point location1, Point location2)
         {
-
+            return true;
         }
     }
 }
