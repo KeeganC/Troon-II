@@ -29,6 +29,8 @@ namespace u5_Troon_Couper
     public partial class MainWindow : Window
     {
         // global variables
+        string winner;
+        bool gameover;
         GameState gameState;
         Player player1;
         Player player2;
@@ -55,6 +57,9 @@ namespace u5_Troon_Couper
 
         private void setupGame()
         {
+
+            // resets gameover
+            gameover = false;
             // changes gamestate
             gameState = GameState.GameOn;
 
@@ -128,12 +133,78 @@ namespace u5_Troon_Couper
                 Canvas.SetTop(player1.rect, player1.location.Y);
                 Canvas.SetLeft(player2.rect, player2.location.X);
                 Canvas.SetTop(player2.rect, player2.location.Y);
-            }
 
+                // checks to see if the players have hit a path
+                foreach (Rectangle path in path1)
+                {
+                    Point pathPoint = new Point(Canvas.GetLeft(path), Canvas.GetTop(path));
+                    gameover = player1.checkCollision(player1.location, pathPoint);
+
+                    if (gameover == true)
+                    {
+                        MessageBox.Show(gameover.ToString());
+                    }
+                    
+
+                    if (gameover == true)
+                    {
+                        gameState = GameState.GameOver;
+                        winner = "Player 2";
+                        gameover = false;
+                        break;
+                    }
+                    gameover = player2.checkCollision(player2.location, pathPoint);
+
+                    if (gameover == true)
+                    {
+                        MessageBox.Show(gameover.ToString());
+                    }
+                    
+
+
+                    if (gameover == true)
+                    {
+                        gameState = GameState.GameOver;
+                        winner = "Player 1";
+                        gameover = false;
+                        break;
+                    }
+                }
+
+                foreach (Rectangle path in path2)
+                {
+                    Point pathPoint = new Point(Canvas.GetLeft(path), Canvas.GetTop(path));
+                    gameover = player1.checkCollision(pathPoint, player1.location);
+
+                    if (gameover == true)
+                    {
+                        gameState = GameState.GameOver;
+                        winner = "Player 2";
+                        gameover = false;
+                        break;
+                    }
+                    gameover = player2.checkCollision(pathPoint, player2.location);
+
+                    if (gameover == true)
+                    {
+                        gameState = GameState.GameOver;
+                        winner = "Player 1";
+                        gameover = false;
+                        break;
+                    }
+                }
+            }
+            
             else if (gameState == GameState.GameOver)
             {
                 this.Title = "Game Over";
-                
+                MessageBox.Show("Game over. Winner is: " + winner);
+                for (int i = canvas.Children.Count - 1; i >= 0; i--)
+                {
+                    canvas.Children.RemoveAt(i);
+                }
+                gameover = false;
+                gameState = GameState.SplashScreen;
             }
             /// this is the end of the code that Couper programmed
 
