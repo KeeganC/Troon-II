@@ -99,17 +99,17 @@ namespace u5_Troon_Couper
             // what happens if player is at edge of screen (moves to other side)
             if (location.X < 0)
             {
-                location.X = 600;
+                location.X = 700;
             }
-            if (location.X > 600)
+            if (location.X > 700)
             {
                 location.X = 0;
             }
             if (location.Y < 0)
             {
-                location.Y = 600;
+                location.Y = 700;
             }
-            if (location.Y > 600)
+            if (location.Y > 700)
             {
                 location.Y = 0;
             }
@@ -121,7 +121,53 @@ namespace u5_Troon_Couper
         /// programmed by Keegan and Ian
         public bool checkCollision(Point location1, Point location2)
         {
-            return true;
+            System.Console.WriteLine("Path location is: (" + location1.X.ToString() + ", " + location1.Y.ToString() + ")");
+            System.Console.WriteLine("Player location is: (" + location2.X.ToString() + ", " + location2.Y.ToString() + ")");
+            if ((location1.X + 3 >= location2.X
+                && location1.X + 3 <= location2.X + 3
+                && location1.Y + 3 >= location2.Y
+                && location1.Y + 3 <= location2.Y + 3))
+            {
+                return true;
+            }
+                
+            if (location2.X + 3 >= location1.X
+                && location2.X + 3 <= location1.X + 3
+                && location2.Y + 3 >= location1.Y
+                && location2.Y + 3 <= location1.Y + 3)
+            {
+                return true;
+            }
+                
+            if (location2.Y > location1.Y
+                && location2.Y < location1.Y + 3
+                && location2.X > location1.X
+                && location2.X < location1.X + 3)
+            {
+                return true;
+            }
+                
+            if (location1.X + 3 > location2.X
+                && location1.X + 3 < location2.X + 3
+                && location1.Y > location2.Y
+                && location1.Y < location2.Y + 3)
+            {
+                return true;
+            }
+                
+                if (location2.X + 3 > location1.X
+                && location2.X + 3 < location1.X + 3
+                && location2.Y > location1.Y
+                && location2.Y < location1.Y + 3)
+                
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
         }
     }
 }
