@@ -1,3 +1,5 @@
+/// all of this class was programmed by couper.
+
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,7 +17,7 @@ namespace u5_Troon_Couper
 {
     class Player
     {
-        /// following code programmed by Couper
+
         //variables
         public Point location;
         int speed = 4;
@@ -99,26 +101,25 @@ namespace u5_Troon_Couper
             // what happens if player is at edge of screen (moves to other side)
             if (location.X < 0)
             {
-                location.X = 700;
+                location.X = 600;
             }
-            if (location.X > 700)
+            if (location.X > 600)
             {
                 location.X = 0;
             }
             if (location.Y < 0)
             {
-                location.Y = 700;
+                location.Y = 600;
             }
-            if (location.Y > 700)
+            if (location.Y > 600)
             {
                 location.Y = 0;
             }
             return location;
         }
-        /// this is the end of the code Couper programmed
+        
 
         // checks to see if players have hit a path or another character.
-        /// programmed by Keegan and Ian
         public bool checkCollision(Point location1, Point location2)
         {
             System.Console.WriteLine("Path location is: (" + location1.X.ToString() + ", " + location1.Y.ToString() + ")");
