@@ -40,6 +40,9 @@ namespace u5_Troon_Couper
         int orientation2 = 3;
         List <Rectangle> path1 = new List<Rectangle>();
         List <Rectangle> path2 = new List<Rectangle>();
+        Background background = new Background();
+        int counterTimer = 0;
+        MediaPlayer musicPlayer = new MediaPlayer();
 
 
         System.Windows.Threading.DispatcherTimer gameTimer = new System.Windows.Threading.DispatcherTimer();
@@ -47,7 +50,11 @@ namespace u5_Troon_Couper
         public MainWindow()
         {
             InitializeComponent();
-            
+
+            //start music
+            musicPlayer.Open(new Uri("TRON Legacy R3CONF1GUR3D - 06 - C.L.U. (Paul Oakenfold Remix) Daft Punk.mp3", UriKind.Relative));
+            musicPlayer.Play();
+
             // starts the game timer thingy
             gameTimer.Tick += gameTimer_Tick;
             gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);//fps
@@ -57,6 +64,18 @@ namespace u5_Troon_Couper
 
         private void setupGame()
         {
+            //MessageBox.Show("Setting up game");
+
+            //add background
+            background.drawBackground(canvas);
+
+            // resetting orientation
+            orientation1 = 1;
+            orientation2 = 3;
+
+            // resetting the paths
+            path1 = new List<Rectangle>();
+            path2 = new List<Rectangle>();
 
             // resets gameover
             gameover = false;
@@ -96,6 +115,12 @@ namespace u5_Troon_Couper
         // what happens every tick
         private void gameTimer_Tick(object sender, EventArgs e)
         {
+            counterTimer++;
+            //add background animation
+            if (counterTimer % 5 == 0)
+            {
+                background.animateBackground();
+            }
 
             if (gameState == GameState.GameOn)
             {
@@ -198,13 +223,17 @@ namespace u5_Troon_Couper
             else if (gameState == GameState.GameOver)
             {
                 this.Title = "Game Over";
-                MessageBox.Show("Game over. Winner is: " + winner);
+                //MessageBox.Show("Game over. Winner is: " + winner);
                 for (int i = canvas.Children.Count - 1; i >= 0; i--)
                 {
                     canvas.Children.RemoveAt(i);
                 }
                 gameover = false;
-                gameState = GameState.SplashScreen;
+                if (Keyboard.IsKeyDown(Key.Space))
+                {
+                    //MessageBox.Show("About to set up game");
+                    setupGame();
+                }
             }
             /// this is the end of the code that Couper programmed
 
@@ -212,8 +241,11 @@ namespace u5_Troon_Couper
             else if (gameState == GameState.SplashScreen)
             {
                 this.Title = "Splash Screen";
-                if (Keyboard.IsKeyDown(Key.Enter))
+                //background.drawBackground(canvas);
+
+                if (Keyboard.IsKeyDown(Key.Space))
                 {
+                    //MessageBox.Show("About to set up game");
                     setupGame();
                 }
             }
