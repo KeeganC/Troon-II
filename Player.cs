@@ -99,21 +99,21 @@ namespace u5_Troon_Couper
             }
 
             // what happens if player is at edge of screen (moves to other side)
-            if (location.X < 0)
+            if (location.X < 1)
             {
-                location.X = 600;
+                location.X = 580;
             }
-            if (location.X > 600)
+            if (location.X > 580)
             {
-                location.X = 0;
+                location.X = 1;
             }
-            if (location.Y < 0)
+            if (location.Y < 1)
             {
-                location.Y = 600;
+                location.Y = 559;
             }
-            if (location.Y > 600)
+            if (location.Y > 559)
             {
-                location.Y = 0;
+                location.Y = 1;
             }
             return location;
         }
