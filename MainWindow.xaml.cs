@@ -29,8 +29,8 @@ namespace u5_Troon_Couper
     public partial class MainWindow : Window
     {
         // global variables
-        string winner;
-        bool gameover;
+        bool p1Gameover;
+        bool p2Gameover;
         GameState gameState;
         Player player1;
         Player player2;
@@ -38,11 +38,13 @@ namespace u5_Troon_Couper
         Brush brush2 = Brushes.Red;
         int orientation1 = 1;
         int orientation2 = 3;
-        List <Rectangle> path1 = new List<Rectangle>();
-        List <Rectangle> path2 = new List<Rectangle>();
+        List<Rectangle> path1 = new List<Rectangle>();
+        List<Rectangle> path2 = new List<Rectangle>();
         Background background = new Background();
         int counterTimer = 0;
         MediaPlayer musicPlayer = new MediaPlayer();
+        int p1Score = 0;
+        int p2Score = 0;
 
 
         System.Windows.Threading.DispatcherTimer gameTimer = new System.Windows.Threading.DispatcherTimer();
@@ -51,7 +53,7 @@ namespace u5_Troon_Couper
         {
             InitializeComponent();
 
-            //start music
+            //start music, by Keegan
             musicPlayer.Open(new Uri("TRON Legacy R3CONF1GUR3D - 06 - C.L.U. (Paul Oakenfold Remix) Daft Punk.mp3", UriKind.Relative));
             musicPlayer.Play();
 
@@ -78,7 +80,8 @@ namespace u5_Troon_Couper
             path2 = new List<Rectangle>();
 
             // resets gameover
-            gameover = false;
+            p1Gameover = false;
+            p2Gameover = false;
             // changes gamestate
             gameState = GameState.GameOn;
 
@@ -116,10 +119,11 @@ namespace u5_Troon_Couper
         private void gameTimer_Tick(object sender, EventArgs e)
         {
             counterTimer++;
-            //add background animation
+            //add animation by Keegan
             if (counterTimer % 5 == 0)
             {
                 background.animateBackground();
+                
             }
 
             if (gameState == GameState.GameOn)
@@ -159,67 +163,66 @@ namespace u5_Troon_Couper
                 Canvas.SetLeft(player2.rect, player2.location.X);
                 Canvas.SetTop(player2.rect, player2.location.Y);
 
-                // checks to see if the players have hit a path
+                // checks to see if the players have hit the blue path
                 foreach (Rectangle path in path1)
                 {
-                    Point pathPoint = new Point(Canvas.GetLeft(path), Canvas.GetTop(path));
-                    gameover = player1.checkCollision(player1.location, pathPoint);
+                      Point pathPoint = new Point(Canvas.GetLeft(path), Canvas.GetTop(path));
+                    p1Gameover = player1.checkCollision(player1.location, pathPoint);
 
-                    if (gameover == true)
-                    {
-                        MessageBox.Show(gameover.ToString());
-                    }
-                    
-
-                    if (gameover == true)
+                    //Scoring fixed by Keegan
+                    if (p1Gameover == true)
                     {
                         gameState = GameState.GameOver;
-                        winner = "Player 2";
-                        gameover = false;
+                        MessageBox.Show("Player 2 wins!");
+                        p2Score++;
+                        MessageBox.Show("Score:\r\nP1= " + p1Score.ToString() + " P2= " + p2Score.ToString());
+                        p1Gameover = false;
                         break;
                     }
-                    gameover = player2.checkCollision(player2.location, pathPoint);
 
-                    if (gameover == true)
-                    {
-                        MessageBox.Show(gameover.ToString());
-                    }
-                    
+                    p2Gameover = player2.checkCollision(player2.location, pathPoint);
 
-
-                    if (gameover == true)
+                    if (p2Gameover == true)
                     {
                         gameState = GameState.GameOver;
-                        winner = "Player 1";
-                        gameover = false;
+                        MessageBox.Show("Player 1 wins!");
+                        p1Score++;
+                        MessageBox.Show("Score:\r\nP1= " + p1Score.ToString() + " P2= " + p2Score.ToString());
+                        p2Gameover = false;
                         break;
                     }
                 }
 
+                // checks to see if the players have hit the red path
                 foreach (Rectangle path in path2)
                 {
                     Point pathPoint = new Point(Canvas.GetLeft(path), Canvas.GetTop(path));
-                    gameover = player1.checkCollision(pathPoint, player1.location);
+                    p1Gameover = player1.checkCollision(pathPoint, player1.location);
 
-                    if (gameover == true)
+                    if (p1Gameover == true)
                     {
                         gameState = GameState.GameOver;
-                        winner = "Player 2";
-                        gameover = false;
+                        MessageBox.Show("Player 2 wins!");
+                        p2Score++;
+                        MessageBox.Show("Score:\r\nP1= " + p1Score.ToString() + " P2= " + p2Score.ToString());
+                        p1Gameover = false;
                         break;
                     }
-                    gameover = player2.checkCollision(pathPoint, player2.location);
 
-                    if (gameover == true)
+                    p2Gameover = player2.checkCollision(pathPoint, player2.location);
+
+                    if (p2Gameover == true)
                     {
                         gameState = GameState.GameOver;
-                        winner = "Player 1";
-                        gameover = false;
+                        MessageBox.Show("Player 1 wins!");
+                        p1Score++;
+                        MessageBox.Show("Score:\r\nP1= " + p1Score.ToString() + " P2= " + p2Score.ToString());
+                        p2Gameover = false;
                         break;
                     }
                 }
             }
-            
+
             else if (gameState == GameState.GameOver)
             {
                 this.Title = "Game Over";
@@ -228,7 +231,8 @@ namespace u5_Troon_Couper
                 {
                     canvas.Children.RemoveAt(i);
                 }
-                gameover = false;
+                p1Gameover = false;
+                p2Gameover = false;
                 if (Keyboard.IsKeyDown(Key.Space))
                 {
                     //MessageBox.Show("About to set up game");
