@@ -1,4 +1,4 @@
-/// all of this class was programmed by couper.
+﻿/// all of this class was programmed by couper.
 
 using System.Text;
 using System.Threading.Tasks;
@@ -42,10 +42,10 @@ namespace u5_Troon_Couper
         public Rectangle rect { get { return player; } }
 
         // chanages which way the player is facing, also stops player from going back on themselves
-        public int turn (Key k, int orientation)
+        public int turn(Key k, int orientation)
         {
             if (k == Key.Left
-                ||k == Key.A
+                || k == Key.A
                 && orientation != 3)
             {
                 orientation = 1;
@@ -99,25 +99,25 @@ namespace u5_Troon_Couper
             }
 
             // what happens if player is at edge of screen (moves to other side)
-            if (location.X < 0)
+            if (location.X < 1)
             {
-                location.X = 600;
+                location.X = 580;
             }
-            if (location.X > 600)
+            if (location.X > 580)
             {
-                location.X = 0;
+                location.X = 1;
             }
-            if (location.Y < 0)
+            if (location.Y < 1)
             {
-                location.Y = 600;
+                location.Y = 559;
             }
-            if (location.Y > 600)
+            if (location.Y > 559)
             {
-                location.Y = 0;
+                location.Y = 1;
             }
             return location;
         }
-        
+
 
         // checks to see if players have hit a path or another character.
         public bool checkCollision(Point location1, Point location2)
@@ -131,7 +131,7 @@ namespace u5_Troon_Couper
             {
                 return true;
             }
-                
+
             if (location2.X + 3 >= location1.X
                 && location2.X + 3 <= location1.X + 3
                 && location2.Y + 3 >= location1.Y
@@ -139,7 +139,7 @@ namespace u5_Troon_Couper
             {
                 return true;
             }
-                
+
             if (location2.Y > location1.Y
                 && location2.Y < location1.Y + 3
                 && location2.X > location1.X
@@ -147,7 +147,7 @@ namespace u5_Troon_Couper
             {
                 return true;
             }
-                
+
             if (location1.X + 3 > location2.X
                 && location1.X + 3 < location2.X + 3
                 && location1.Y > location2.Y
@@ -155,12 +155,12 @@ namespace u5_Troon_Couper
             {
                 return true;
             }
-                
-                if (location2.X + 3 > location1.X
-                && location2.X + 3 < location1.X + 3
-                && location2.Y > location1.Y
-                && location2.Y < location1.Y + 3)
-                
+
+            if (location2.X + 3 > location1.X
+            && location2.X + 3 < location1.X + 3
+            && location2.Y > location1.Y
+            && location2.Y < location1.Y + 3)
+
             {
                 return true;
             }

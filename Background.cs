@@ -1,4 +1,4 @@
-/// all of this class was done by keegan
+﻿/// all of this class was done by keegan
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +21,9 @@ namespace u5_Troon_Couper
         //adds background
         public void drawBackground(Canvas canvas)
         {
-            backGround.Height = 600;
-            backGround.Width = 600;
-            backGround.Fill = Brushes.Green;
+            backGround.Height = 561;
+            backGround.Width = 584;
+            backGround.Fill = new ImageBrush(new BitmapImage(new Uri("Back1.png", UriKind.Relative)));
             canvas.Children.Add(backGround);
         }
         public void animateBackground()
@@ -53,6 +53,10 @@ namespace u5_Troon_Couper
                 backGround.Fill = new ImageBrush(new BitmapImage(new Uri("Back4.png", UriKind.Relative)));
             }
         }
-
+        
+        public void gameOverScreen()
+        {
+            backGround.Fill = new ImageBrush(new BitmapImage(new Uri("TroonGameOver.png", UriKind.Relative)));
+        }
     }
 }

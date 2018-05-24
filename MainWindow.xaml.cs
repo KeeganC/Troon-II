@@ -1,5 +1,5 @@
-/* 
- * Couper Ebbs-picken
+﻿/* 
+ * Keegan Chan
  * 5/9/2018
  * Make Troon
  */
@@ -21,6 +21,7 @@ using System.Windows.Shapes;
 namespace u5_Troon_Couper
 {
     /// the following code was done by Couper
+    /// and edited by Keegan
     enum GameState { SplashScreen, GameOn, GameOver }
 
     /// <summary>
@@ -52,6 +53,8 @@ namespace u5_Troon_Couper
         public MainWindow()
         {
             InitializeComponent();
+            //splash screen
+            canvas.Background = new ImageBrush(new BitmapImage(new Uri("TroonSplash.png", UriKind.Relative)));
 
             //start music, by Keegan
             musicPlayer.Open(new Uri("TRON Legacy R3CONF1GUR3D - 06 - C.L.U. (Paul Oakenfold Remix) Daft Punk.mp3", UriKind.Relative));
@@ -173,6 +176,7 @@ namespace u5_Troon_Couper
                     if (p1Gameover == true)
                     {
                         gameState = GameState.GameOver;
+                        background.gameOverScreen();
                         MessageBox.Show("Player 2 wins!");
                         p2Score++;
                         MessageBox.Show("Score:\r\nP1= " + p1Score.ToString() + " P2= " + p2Score.ToString());
@@ -185,6 +189,7 @@ namespace u5_Troon_Couper
                     if (p2Gameover == true)
                     {
                         gameState = GameState.GameOver;
+                        background.gameOverScreen();
                         MessageBox.Show("Player 1 wins!");
                         p1Score++;
                         MessageBox.Show("Score:\r\nP1= " + p1Score.ToString() + " P2= " + p2Score.ToString());
@@ -202,6 +207,7 @@ namespace u5_Troon_Couper
                     if (p1Gameover == true)
                     {
                         gameState = GameState.GameOver;
+                        background.gameOverScreen();
                         MessageBox.Show("Player 2 wins!");
                         p2Score++;
                         MessageBox.Show("Score:\r\nP1= " + p1Score.ToString() + " P2= " + p2Score.ToString());
@@ -214,6 +220,7 @@ namespace u5_Troon_Couper
                     if (p2Gameover == true)
                     {
                         gameState = GameState.GameOver;
+                        background.gameOverScreen();
                         MessageBox.Show("Player 1 wins!");
                         p1Score++;
                         MessageBox.Show("Score:\r\nP1= " + p1Score.ToString() + " P2= " + p2Score.ToString());
