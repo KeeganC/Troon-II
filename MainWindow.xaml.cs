@@ -1,4 +1,4 @@
-﻿/* 
+/* 
  * Keegan Chan
  * 5/9/2018
  * Make Troon
@@ -57,7 +57,9 @@ namespace u5_Troon_Couper
             canvas.Background = new ImageBrush(new BitmapImage(new Uri("TroonSplash.png", UriKind.Relative)));
 
             //start music, by Keegan
+            musicPlayer.MediaEnded += MusicPlayer_MediaEnded;
             musicPlayer.Open(new Uri("TRON Legacy R3CONF1GUR3D - 06 - C.L.U. (Paul Oakenfold Remix) Daft Punk.mp3", UriKind.Relative));
+            //musicPlayer.Position = new TimeSpan(0, 0, 4, 25);
             musicPlayer.Play();
 
             // starts the game timer thingy
@@ -65,6 +67,13 @@ namespace u5_Troon_Couper
             gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);//fps
             gameTimer.Start();
 
+        }
+
+        private void MusicPlayer_MediaEnded(object sender, EventArgs e)
+        {
+            //MessageBox.Show("Song is done.");
+            musicPlayer.Position = new TimeSpan();
+            musicPlayer.Play();
         }
 
         private void setupGame()
@@ -126,7 +135,6 @@ namespace u5_Troon_Couper
             if (counterTimer % 5 == 0)
             {
                 background.animateBackground();
-                
             }
 
             if (gameState == GameState.GameOn)
