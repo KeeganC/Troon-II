@@ -57,9 +57,7 @@ namespace u5_Troon_Couper
             canvas.Background = new ImageBrush(new BitmapImage(new Uri("TroonSplash.png", UriKind.Relative)));
 
             //start music, by Keegan
-            musicPlayer.MediaEnded += MusicPlayer_MediaEnded;
             musicPlayer.Open(new Uri("TRON Legacy R3CONF1GUR3D - 06 - C.L.U. (Paul Oakenfold Remix) Daft Punk.mp3", UriKind.Relative));
-            //musicPlayer.Position = new TimeSpan(0, 0, 4, 25);
             musicPlayer.Play();
 
             // starts the game timer thingy
@@ -67,13 +65,6 @@ namespace u5_Troon_Couper
             gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);//fps
             gameTimer.Start();
 
-        }
-
-        private void MusicPlayer_MediaEnded(object sender, EventArgs e)
-        {
-            //MessageBox.Show("Song is done.");
-            musicPlayer.Position = new TimeSpan();
-            musicPlayer.Play();
         }
 
         private void setupGame()
@@ -114,8 +105,8 @@ namespace u5_Troon_Couper
                 || e.Key == Key.Right)
             {
                 orientation1 = player1.turn(e.Key, orientation1);
+                
             }
-
             // turns player 2
             if (e.Key == Key.A
                || e.Key == Key.W
@@ -135,11 +126,14 @@ namespace u5_Troon_Couper
             if (counterTimer % 5 == 0)
             {
                 background.animateBackground();
+
             }
 
             if (gameState == GameState.GameOn)
             {
                 this.Title = "Game on";
+                //Updates animation
+
 
                 // creates a path behind the players
                 player1.path = new Rectangle();
@@ -177,7 +171,7 @@ namespace u5_Troon_Couper
                 // checks to see if the players have hit the blue path
                 foreach (Rectangle path in path1)
                 {
-                      Point pathPoint = new Point(Canvas.GetLeft(path), Canvas.GetTop(path));
+                    Point pathPoint = new Point(Canvas.GetLeft(path), Canvas.GetTop(path));
                     p1Gameover = player1.checkCollision(player1.location, pathPoint);
 
                     //Scoring fixed by Keegan
